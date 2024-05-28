@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  gap: 8px;
+}
+
+.operator-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.upper-digits, .middle-digits, .lower-digits {
+ margin-bottom: 4px;
+}
+
+
+.digit, .operator {
+  width: 32px;
+  height: 32px;
+}
+
+.digit {
+  background-color: gray;
+}
+
+.zero {
+ width: 68px;
+}
+
+.operator {
+background-color: red;
+}
