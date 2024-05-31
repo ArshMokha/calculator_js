@@ -1,6 +1,13 @@
-.container {
+.calculator-container {
   display: flex;
   gap: 8px;
+}
+
+.display-container {
+  border: 1px solid blue;
+  width: 142px;
+  height: 24px;
+  margin-bottom: 8px;
 }
 
 .operator-container {
