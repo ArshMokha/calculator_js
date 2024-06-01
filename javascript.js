@@ -20,11 +20,11 @@ operatorButtons.forEach((operatorButton) => {
   operatorButton.addEventListener("click", () => {
     const selectedOperator = operatorButton.textContent;
 
-    /*if(!displayArea && !operator) {
+    if(!displayArea && !operator) {
       displayContent("Please Select a Digit");
       return;
-    }*/
-
+    }
+    
     if (!firstDigit) {
       firstDigit = +displayArea;
       operator = selectedOperator;
@@ -51,10 +51,6 @@ operatorButtons.forEach((operatorButton) => {
         displayArea = "";
       }
     }
-
-    console.log(firstDigit);
-    console.log(operator);
-    console.log(secondDigit);
   })
 })
 
