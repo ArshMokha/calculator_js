@@ -1,8 +1,62 @@
 let firstDigit = null;
-let operator = null;
 let secondDigit = null;
+let operator = null;
+let displayArea = "";
 
-let display = "";
+const digitButtons = document.querySelectorAll(".digit");
+const operatorButtons = document.querySelectorAll(".operator");
+
+const clearButton = document.querySelector(".clear");
+const displayContainer = document.querySelector(".display-container");
+
+digitButtons.forEach((digitButton) => {
+  digitButton.addEventListener("click", () => {
+    displayArea += digitButton.textContent;
+    displayContent(displayArea);
+  })
+})
+
+operatorButtons.forEach((operatorButton) => {
+  operatorButton.addEventListener("click", () => {
+    const selectedOperator = operatorButton.textContent;
+
+    /*if(!displayArea && !operator) {
+      displayContent("Please Select a Digit");
+      return;
+    }*/
+
+    if (!firstDigit) {
+      firstDigit = +displayArea;
+      operator = selectedOperator;
+      displayArea = ""
+      displayContent(displayArea);
+    } else if (!operator) {
+      if (selectedOperator != "=") {
+        operator = selectedOperator;
+      }
+    } else if (!secondDigit) {
+      if (selectedOperator != "=") {
+        secondDigit = +displayArea;
+        firstDigit = operate(firstDigit, operator, secondDigit);
+        operator = selectedOperator;
+        secondDigit = null;
+        displayContent(firstDigit);
+        display = "";
+      } else {
+        secondDigit = +displayArea;
+        firstDigit = operate(firstDigit, operator, secondDigit);
+        operator = null;
+        secondDigit = null;
+        displayContent(firstDigit);
+        displayArea = "";
+      }
+    }
+
+    console.log(firstDigit);
+    console.log(operator);
+    console.log(secondDigit);
+  })
+})
 
 function addDigits(firstDigit, secondDigit) {
   return firstDigit + secondDigit;
@@ -21,24 +75,21 @@ function divideDigits(firstDigit, secondDigit) {
 }
 
 function operate(firstDigit, operator, secondDigit) {
-  let result;
-  
   switch (operator) {
     case "+":
-      result = addDigits(firstDigit, secondDigit);
-      break;
+      return addDigits(firstDigit, secondDigit);
     case "-":
-      result = subtractDigits(firstDigit, secondDigit);
-      break;
+      return subtractDigits(firstDigit, secondDigit);
     case "/":
-      result = divideDigits(firstDigit, secondDigit);
-      break;
+      return divideDigits(firstDigit, secondDigit);
     case "x":
-      result = multiplyDigits(firstDigit, secondDigit);
-      break;
+      return multiplyDigits(firstDigit, secondDigit);
   }
-  return result;
 }
+
+clearButton.addEventListener("click", () => {
+  clear();
+})
 
 function displayContent(displayValue) {
   displayContainer.textContent = displayValue;
@@ -48,49 +99,6 @@ function clear() {
   firstDigit = null;
   operator = null;
   secondDigit = null;
-  display = "";
+  displayArea = "";
   displayContent("clear");
 }
-
-const digitButtons = document.querySelectorAll(".digit");
-const operatorButtons = document.querySelectorAll(".operator");
-const clearButton = document.querySelector(".clear");
-const displayContainer = document.querySelector(".display-container");
-
-digitButtons.forEach((digitButton) => {
-  digitButton.addEventListener("click", () => {
-    display += digitButton.textContent;
-    displayContent(display);
-  })
-})
-
-operatorButtons.forEach((operatorButton) => {
-  operatorButton.addEventListener("click", () => {
-    const selectedOperator = operatorButton.textContent;
-
-    if(!display && !operator) {
-      displayContent("Please Select a Digit");
-      return;
-    }
-
-    if (!firstDigit) {
-      firstDigit = +display;
-      operator = selectedOperator;
-      display = "";
-      displayContent(operator);
-    } else if (!secondDigit) {
-      secondDigit = +display;
-      firstDigit = operate(firstDigit, operator, secondDigit);
-      secondDigit = null;
-      display = "";
-      displayContent(firstDigit);
-      if (selectedOperator !== "=") {
-        operator = selectedOperator;
-      }
-    }
-  })
-})
-
-clearButton.addEventListener("click", () => {
-  clear();
-})
