@@ -1,8 +1,8 @@
-let firstDigit;
-let operator;
-let secondDigit;
+let firstDigit = null;
+let operator = null;
+let secondDigit = null;
 
-let displayValue = "";
+let display = "";
 
 function addDigits(firstDigit, secondDigit) {
   return firstDigit + secondDigit;
@@ -40,9 +40,57 @@ function operate(firstDigit, operator, secondDigit) {
   return result;
 }
 
-/* 
-click any number of digits,
-click an operator
-click any number of digits
-repeat or =
-*/
+function displayContent(displayValue) {
+  displayContainer.textContent = displayValue;
+}
+
+function clear() {
+  firstDigit = null;
+  operator = null;
+  secondDigit = null;
+  display = "";
+  displayContent("clear");
+}
+
+const digitButtons = document.querySelectorAll(".digit");
+const operatorButtons = document.querySelectorAll(".operator");
+const clearButton = document.querySelector(".clear");
+const displayContainer = document.querySelector(".display-container");
+
+digitButtons.forEach((digitButton) => {
+  digitButton.addEventListener("click", () => {
+    display += digitButton.textContent;
+    displayContent(display);
+  })
+})
+
+operatorButtons.forEach((operatorButton) => {
+  operatorButton.addEventListener("click", () => {
+    const selectedOperator = operatorButton.textContent;
+
+    if(!display && !operator) {
+      displayContent("Please Select a Digit");
+      return;
+    }
+
+    if (!firstDigit) {
+      firstDigit = +display;
+      operator = selectedOperator;
+      display = "";
+      displayContent(operator);
+    } else if (!secondDigit) {
+      secondDigit = +display;
+      firstDigit = operate(firstDigit, operator, secondDigit);
+      secondDigit = null;
+      display = "";
+      displayContent(firstDigit);
+      if (selectedOperator !== "=") {
+        operator = selectedOperator;
+      }
+    }
+  })
+})
+
+clearButton.addEventListener("click", () => {
+  clear();
+})
